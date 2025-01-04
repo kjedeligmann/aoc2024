@@ -34,5 +34,5 @@ walk(W, Lab, Obstacle, Dir, Pos, Vector, Seen) ->
         is_map_key(Pos, Seen) ->
             walk(W, Lab, Obstacle, Dir, Pos+lists:nth((Vector rem 4) + 1, Dir), Vector, Seen);
         true ->
-            walk(W, Lab, Obstacle, Dir, Pos+lists:nth((Vector rem 4)+ 1, Dir), Vector, Seen#{ Pos => true })
+            walk(W, Lab, Obstacle, Dir, Pos+lists:nth((Vector rem 4) + 1, Dir), Vector, Seen#{ Pos => true })
     end.
