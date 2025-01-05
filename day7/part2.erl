@@ -1,4 +1,4 @@
--module(part1).
+-module(part2).
 -export([solve/0, count/1, evaluate/3, find/3, fork/2]).
 
 solve() ->
@@ -14,19 +14,19 @@ solve() ->
                        ]]
              ],
 
-    Master = spawn(part1, count, [0]),
+    Master = spawn(part2, count, [0]),
     fork(Master, Tuples).
 
 fork(Master, []) -> Master ! 0;
 fork(Master, [{Target, Nums}|Tail]) ->
-    spawn(part1, evaluate, [Master, Target, Nums]),
+    spawn(part2, evaluate, [Master, Target, Nums]),
     fork(Master, Tail).
 
 count(Count) ->
     receive
         Num ->
             count(Count+Num)
-    after 10 ->
+    after 40 ->
         io:format("~p~n", [Count]),
         init:stop()
     end.
@@ -48,4 +48,7 @@ find(_, _, []) -> 0;
 
 find(Target, Sofar, [Next|Other]) ->
     find(Target, Sofar * Next, Other) +
-    find(Target, Sofar + Next, Other).
+    find(Target, Sofar + Next, Other) +
+    find(Target, list_to_integer(
+                   integer_to_list(Sofar)++integer_to_list(Next)
+                  ), Other).
